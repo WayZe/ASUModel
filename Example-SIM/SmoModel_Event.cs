@@ -43,7 +43,9 @@ namespace Model_Lab
 							rec.Z = Model.KPP[NU][0].Z;
                             do
                                 rec.Z.KK = Model.GenKKZ.GenerateValue();
-                            while (Model.GenKKZ.GenerateValue() <= 0);
+                            while (rec.Z.KK <= 0);
+
+                            Model.Tracer.AnyTrace("Сгенерировано: " + rec.Z.KK);
 
                             if ((int)Model.KPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]].Count < (int)Model.MAXKPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]])
 							{

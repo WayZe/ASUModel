@@ -55,8 +55,6 @@ namespace Model_Lab
 
 			(GenKKZ.BPN as GeneratedBaseRandomStream).Seed = 1;
 			(GenTime.BPN as GeneratedBaseRandomStream).Seed = 2;
-           
-
 
             #endregion
         }
