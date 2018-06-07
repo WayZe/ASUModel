@@ -19,16 +19,16 @@ namespace Model_Lab
             // алгоритм обработки события            
             protected override void HandleEvent(ModelEventArgs args)
             {
+                Model.Tracer.EventTrace(this);
 				for (int NU = 0; NU < KUVS; NU++)
 				{
-					Console.WriteLine(NU);
 					if (Model.KPP[NU].Count != 0)
 					{
-						Model.KPP[NU][0].Z.KK--;
+                        Model.KPP[NU][0].Z.KK--;
 						if (Model.KPP[NU][0].Z.KK == 0)
 						{
 							// Переход к следующему этапу
-							if (Model.MZ[Model.KPP[NU][0].Z.NZ-1, Model.KPP[NU][0].Z.NE - 1] == -1)
+							if (Model.MZ[Model.KPP[NU][0].Z.NZ-1, Model.KPP[NU][0].Z.NE] == -1)
 							{
 								Model.KPP[NU][0].Z.NE = 1;
 							}
@@ -38,19 +38,28 @@ namespace Model_Lab
 							}
 
                             // Обноление очередей для заявки
-							var rec = new QRec();
+                            var rec = new QRec();
 							Model.GenKKZ.A = Model.MOKK[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1];
 							rec.Z = Model.KPP[NU][0].Z;
-							rec.Z.KK = Model.GenKKZ.GenerateValue();                  
-							if (Model.KPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]-1].Count < Model.MAXKPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]-1])
+                            do
+                                rec.Z.KK = Model.GenKKZ.GenerateValue();
+                            while (Model.GenKKZ.GenerateValue() <= 0);
+
+                            if ((int)Model.KPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]].Count < (int)Model.MAXKPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]])
 							{
-								Model.KPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]].Add(rec);
+                                Model.KPP[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]].Add(rec);
 							}
 							else
 							{
-								Model.SQ[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]-1].Add(rec);
-							}        
-							Model.KPP[NU].RemoveAt(0);   
+                                Model.SQ[Model.MZ[Model.KPP[NU][0].Z.NZ - 1, Model.KPP[NU][0].Z.NE - 1]].Add(rec);
+                            }        
+							Model.KPP[NU].RemoveAt(0);
+
+                            if (Model.SQ[NU].Count > 0 && Model.KPP[NU].Count < Model.MAXKPP[NU])
+                            {
+                                Model.KPP[NU].Add(Model.SQ[NU][0]);
+                                Model.SQ[NU].RemoveAt(0);
+                            }
 						}
 						else
 						{
@@ -65,6 +74,7 @@ namespace Model_Lab
 				var ev1 = new K1(); //создаём объект события                       
 				double dt1 = Model.GenTime.GenerateValue();
                 Model.PlanEvent(ev1, dt1);
+                Model.Tracer.PlanEventTrace(ev1);
 
 				Model.TraceModel();
             }

@@ -35,8 +35,8 @@ namespace Model_Lab
             
 			MZ = new int[KZ, KUVS + 1] 
 			{
-				{1,2,3,-1},
-				{1,2,1,-1}
+				{0,1,2,-1},
+				{1,0,1,-1}
 			};
             
 			MOKK = new int[KZ, KUVS + 1]
@@ -73,27 +73,33 @@ namespace Model_Lab
             //Печать заголовка строки состояния модели
             TraceModelHeader();
 
-			#region Планирование начальных событий
-            var ev1 = new K1();                                 // создание объекта события
+			#region Планирование начальных событий      
+            var ev1 = new K1();                         
 			Bid Z1 = new Bid();
             Z1.NZ = 1;
 			Z1.NE = 1;
 			Z1.KK = GenKKZ.GenerateValue();
 			ev1.ZP = Z1;     
-			var rec = new QRec();
-            rec.Z = Z1;
-            KPP[MZ[0,0]].Add(rec);
-            PlanEvent(ev1, 0.0);                          // планирование события 3
+			var rec1 = new QRec();
+            rec1.Z = Z1;
+            KPP[MZ[0,0]].Add(rec1);
+            PlanEvent(ev1, 0.0);                        
 			Tracer.PlanEventTrace(ev1);
-            
-			var ev2 = new K1();                                 // создание объекта события
+
+            var ev2 = new K1();                         
             Bid Z2 = new Bid();
-			Z2.NZ = 2;
-			Z2.NE = 1;
-			Z2.KK = GenKKZ.GenerateValue();
-            ev2.ZP = Z2;                                        // передача библиотекаря в событие
-            PlanEvent(ev2, 0.0);                          // планирование события 3
+            Z2.NZ = 2;
+            Z2.NE = 1;
+            Z2.KK = GenKKZ.GenerateValue();
+            ev2.ZP = Z2;
+            var rec2 = new QRec();
+            rec2.Z = Z2;
+            KPP[MZ[1, 0]].Add(rec2);
+            Tracer.AnyTrace(Z2.NZ);
+            Tracer.AnyTrace(KPP[MZ[1, 0]][0].Z.NZ);
+            PlanEvent(ev2, 0.0);                        
             Tracer.PlanEventTrace(ev2);
+            TraceModel();
 
             #endregion
         }
@@ -154,12 +160,12 @@ namespace Model_Lab
             //Tracer.AnyTrace("VP = " + VP);
             //Tracer.AnyTrace("");
 
-            //Tracer.AnyTrace("Начальное состояние модели:");
-            //TraceModel();
-            //Tracer.AnyTrace("");
+            Tracer.AnyTrace("Начальное состояние модели:");
+            TraceModel();
+            Tracer.AnyTrace("");
 
-            //Tracer.TraceOut("==============================================================");
-            //Tracer.AnyTrace("");
+            Tracer.TraceOut("==============================================================");
+            Tracer.AnyTrace("");
         }
 
         //Печать строки состояния
@@ -175,18 +181,16 @@ namespace Model_Lab
 				{
 					for (int j = 0; j < KPP[i].Count; j++)
 					{
-						Console.WriteLine(KPP[i].Count);
-						Tracer.AnyTrace("NZ = " + KPP[i][j].Z.NZ + " NE = " + KPP[i][j].Z.NE + " KOK = " + KPP[i][j].Z.KK);
+						Tracer.AnyTrace("NU = " + i + " NZ = " + KPP[i][j].Z.NZ + " NE = " + KPP[i][j].Z.NE + " KOK = " + KPP[i][j].Z.KK);
 					}
 				}
-				Console.WriteLine("asdf");
+
 				if (SQ[i].Count > 0)
 				{
 					for (int j = 0; j < SQ[i].Count; j++)
 					{
-						Console.WriteLine(SQ[i].Count);
-						Tracer.AnyTrace("NZ = " + KPP[i][j].Z.NZ + " NE = " + KPP[i][j].Z.NE + " KOK = " + KPP[i][j].Z.KK);
-					}
+                        Tracer.AnyTrace("NU = " + i + " NZ = " + SQ[i][j].Z.NZ + " NE = " + SQ[i][j].Z.NE + " KOK = " + SQ[i][j].Z.KK);
+                    }
 				}
 			}
         }

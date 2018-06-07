@@ -80,3 +80,12 @@ D:/Langs/C#/BusModel/Example-SIM/obj/Debug/Example-SIM.pdb
 /Users/andreymakarov/Langs/C#/ASUModel/Example-SIM/obj/Debug/Example-SIM.csproj.CoreCompileInputs.cache
 /Users/andreymakarov/Langs/C#/ASUModel/Example-SIM/obj/Debug/Example-SIM.exe
 /Users/andreymakarov/Langs/C#/ASUModel/Example-SIM/obj/Debug/Example-SIM.pdb
+D:\Langs\C#\ASUModel\Example-SIM\bin\Debug\Example-SIM.exe.config
+D:\Langs\C#\ASUModel\Example-SIM\bin\Debug\Example-SIM.exe
+D:\Langs\C#\ASUModel\Example-SIM\bin\Debug\Example-SIM.pdb
+D:\Langs\C#\ASUModel\Example-SIM\bin\Debug\PSS.dll
+D:\Langs\C#\ASUModel\Example-SIM\obj\Debug\Example-SIM.csprojAssemblyReference.cache
+D:\Langs\C#\ASUModel\Example-SIM\obj\Debug\Example-SIM.csproj.CoreCompileInputs.cache
+D:\Langs\C#\ASUModel\Example-SIM\obj\Debug\Example-SIM.csproj.CopyComplete
+D:\Langs\C#\ASUModel\Example-SIM\obj\Debug\Example-SIM.exe
+D:\Langs\C#\ASUModel\Example-SIM\obj\Debug\Example-SIM.pdb
