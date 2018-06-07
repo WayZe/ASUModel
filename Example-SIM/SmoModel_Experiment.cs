@@ -93,8 +93,6 @@ namespace Model_Lab
             var rec2 = new QRec();
             rec2.Z = Z2;
             KPP[MZ[1, 0]].Add(rec2);
-            Tracer.AnyTrace(Z2.NZ);
-            Tracer.AnyTrace(KPP[MZ[1, 0]][0].Z.NZ);
             PlanEvent(ev2, 0.0);                        
             Tracer.PlanEventTrace(ev2);
             TraceModel();
@@ -110,15 +108,33 @@ namespace Model_Lab
             Tracer.TraceOut("============Статистические результаты моделирования===========");
             Tracer.TraceOut("==============================================================");
             Tracer.AnyTrace("");
-            Tracer.TraceOut("Время моделирования: " + string.Format("{0:0.00}", Time));
+            Tracer.TraceOut("Время моделирования: " + String.Format("{0:0.00}", Time));
 
-			//Tracer.TraceOut("Статистические характеристики длины очереди: ");
-			//Tracer.TraceOut("МО = " + Variance_LQ.Mx.ToString("#.###"));
-			//Tracer.TraceOut("Дисперсия = " + Variance_LQ.Stat.ToString("#.###"));
+            Tracer.TraceOut("\r\nИнтенсивность числа полных прогонов: ");
+            Tracer.TraceOut("Заявка 1: " + KC[0] / TP);
+            Tracer.TraceOut("Заявка 2: " + KC[1] / TP);
 
-			//Tracer.TraceOut("");
-			//Tracer.TraceOut("KNP = " + KNP);
+            Tracer.TraceOut("\r\nВероятность загрузки узлов: ");
+            Tracer.TraceOut("Узел 1: " + TSZ[0] / (TSZ[0] + TSZ[1] + TSZ[2]));
+            Tracer.TraceOut("Узел 2: " + TSZ[1] / (TSZ[0] + TSZ[1] + TSZ[2]));
+            Tracer.TraceOut("Узел 3: " + TSZ[2] / (TSZ[0] + TSZ[1] + TSZ[2]));
 
+            Tracer.TraceOut("\r\nСтатистические характеристики длин очередей: ");
+            Tracer.TraceOut("Очереди KPP: ");
+            Tracer.TraceOut("МО = " + String.Format("{0:0.000}", Variance_LKPP[0].Mx));
+            Tracer.TraceOut("Дисперсия = " + String.Format("{0:0.000}", Variance_LKPP[0].Stat));
+            Tracer.TraceOut("МО = " + String.Format("{0:0.000}", Variance_LKPP[1].Mx));
+            Tracer.TraceOut("Дисперсия = " + String.Format("{0:0.000}", Variance_LKPP[1].Stat));
+            Tracer.TraceOut("МО = " + String.Format("{0:0.000}", Variance_LKPP[2].Mx));
+            Tracer.TraceOut("Дисперсия = " + String.Format("{0:0.000}", Variance_LKPP[2].Stat));
+            Tracer.AnyTrace("");
+            Tracer.TraceOut("Очереди SQ: ");
+            Tracer.TraceOut("МО = " + String.Format("{0:0.000}", Variance_LSQ[0].Mx));
+            Tracer.TraceOut("Дисперсия = " + String.Format("{0:0.000}", Variance_LSQ[0].Stat));
+            Tracer.TraceOut("МО = " + String.Format("{0:0.000}", Variance_LSQ[1].Mx));
+            Tracer.TraceOut("Дисперсия = " + String.Format("{0:0.000}", Variance_LSQ[1].Stat));
+            Tracer.TraceOut("МО = " + String.Format("{0:0.000}", Variance_LSQ[2].Mx));
+            Tracer.TraceOut("Дисперсия = " + String.Format("{0:0.000}", Variance_LSQ[2].Stat));
         }
 
         //Печать заголовка
@@ -128,36 +144,30 @@ namespace Model_Lab
             Tracer.TraceOut("======================= Запущена модель ======================");
             Tracer.TraceOut("==============================================================");
             //вывод заголовка трассировки
-            //Tracer.AnyTrace("");
-            //Tracer.AnyTrace("Параметры модели:");
-            //Tracer.AnyTrace("Интенсивность потока пассажиров:");
-            //Tracer.AnyTrace("LAMBD = " + LAMBD );
-            //Tracer.AnyTrace("Состояние автобуса:");
-            //Tracer.AnyTrace("SA = " + SA    );
-            //Tracer.AnyTrace("Размер автобуса:");
-            //Tracer.AnyTrace("B = " + B     );
-            //Tracer.AnyTrace("Интервал времени прибытия автобуса:");
-            //Tracer.AnyTrace("T = " + T     );
-            //Tracer.AnyTrace("Погрешность прибытия автобуса:");
-            //Tracer.AnyTrace("A = " + A     );
-            //Tracer.AnyTrace("Время прогона:");
-            //Tracer.AnyTrace("TP = " + TP    );
-            //Tracer.AnyTrace("Вариант модели:");
-            //Tracer.AnyTrace("NVAR = " + NVAR  );
-            //Tracer.AnyTrace("Левая и правая границы числа пассажиров в автобусе:");
-            //Tracer.AnyTrace("ml = " + ml    );
-            //Tracer.AnyTrace("mp = " + mp    );
-            //Tracer.AnyTrace("Левая и правая границы времени высадки пассажира:");
-            //Tracer.AnyTrace("bcl = " + bcl   );
-            //Tracer.AnyTrace("bcp = " + bcp   );
-            //Tracer.AnyTrace("Левая и правая границы времени посадки пассажира:");
-            //Tracer.AnyTrace("pcl = " + pcl   );
-            //Tracer.AnyTrace("pcp = " + pcp);
-            //Tracer.AnyTrace("Левая и правая границы количества выходящих пассажиров из автобуса:");
-            //Tracer.AnyTrace("VL = " + VL);
-            //Tracer.AnyTrace("VP = " + VP);
-            //Tracer.AnyTrace("");
+            Tracer.AnyTrace("");
+            Tracer.AnyTrace("Параметры модели:");
+            Tracer.AnyTrace("");
 
+            Tracer.AnyTrace("Количество узлов: ");
+            Tracer.AnyTrace("KUVS = " + KUVS);
+            Tracer.AnyTrace("");
+            Tracer.AnyTrace("Количество заявок: ");
+            Tracer.AnyTrace("KZ = " + KZ);
+            Tracer.AnyTrace("");
+            Tracer.AnyTrace("Маршрут:");
+            Tracer.AnyTrace(MZ[0, 0] + " " + MZ[0, 1] + " " + MZ[0, 2]);
+            Tracer.AnyTrace(MZ[1, 0] + " " + MZ[1, 1] + " " + MZ[1, 2]);
+            Tracer.AnyTrace("");
+            Tracer.AnyTrace("МО:");
+            Tracer.AnyTrace(MOKK[0, 0] + " " + MOKK[0, 1] + " " + MOKK[0, 2]);
+            Tracer.AnyTrace(MOKK[1, 0] + " " + MOKK[1, 1] + " " + MOKK[1, 2]);
+            Tracer.AnyTrace("");
+            Tracer.AnyTrace("Максимальное количество ПП в каждом узле:");
+            Tracer.AnyTrace(MAXKPP[0] + " " + MAXKPP[0] + " " + MAXKPP[0]);
+            Tracer.AnyTrace("");
+            Tracer.AnyTrace("Время прогона: ");
+            Tracer.AnyTrace("TP = " + TP);
+            Tracer.AnyTrace("");
             Tracer.AnyTrace("Начальное состояние модели:");
             TraceModel();
             Tracer.AnyTrace("");
@@ -179,7 +189,7 @@ namespace Model_Lab
 				{
 					for (int j = 0; j < KPP[i].Count; j++)
 					{
-						Tracer.AnyTrace("NU = " + i + " NZ = " + KPP[i][j].Z.NZ + " NE = " + KPP[i][j].Z.NE + " KOK = " + KPP[i][j].Z.KK);
+						Tracer.AnyTrace("NU = " + (i+1) + " NZ = " + KPP[i][j].Z.NZ + " NE = " + KPP[i][j].Z.NE + " KOK = " + KPP[i][j].Z.KK);
 					}
 				}
 
@@ -187,10 +197,12 @@ namespace Model_Lab
 				{
 					for (int j = 0; j < SQ[i].Count; j++)
 					{
-                        Tracer.AnyTrace("NU = " + i + " NZ = " + SQ[i][j].Z.NZ + " NE = " + SQ[i][j].Z.NE + " KOK = " + SQ[i][j].Z.KK);
+                        Tracer.AnyTrace("NU = " + (i+1) + " NZ = " + SQ[i][j].Z.NZ + " NE = " + SQ[i][j].Z.NE + " KOK = " + SQ[i][j].Z.KK);
                     }
 				}
 			}
+
+            Tracer.AnyTrace("");
         }
 
     }
