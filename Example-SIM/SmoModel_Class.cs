@@ -29,6 +29,7 @@ namespace Model_Lab
         // Время прогона
         double TP;
 
+        int TK = 0;
         #endregion
 
         #region Переменные состояния модели

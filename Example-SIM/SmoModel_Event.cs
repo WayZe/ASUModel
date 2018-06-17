@@ -19,8 +19,9 @@ namespace Model_Lab
             // алгоритм обработки события            
             protected override void HandleEvent(ModelEventArgs args)
             {
-                Model.Tracer.EventTrace(this);
-				for (int NU = 0; NU < KUVS; NU++)
+                Model.Tracer.AnyTrace(Model.TK + "\tK1");
+                Model.TK++;
+                for (int NU = 0; NU < KUVS; NU++)
 				{
 					if (Model.KPP[NU].Count != 0)
 					{
@@ -76,7 +77,8 @@ namespace Model_Lab
 				var ev1 = new K1(); //создаём объект события                       
 				double dt1 = Model.GenTime.GenerateValue();
                 Model.PlanEvent(ev1, dt1);
-                Model.Tracer.PlanEventTrace(ev1);
+                //Model.Tracer.PlanEventTrace(ev1);
+                Model.Tracer.AnyTrace("+" + Model.TK + "\tK1");
 
                 Model.LKPP[0].Value = Model.KPP[0].Count;
                 Model.LKPP[1].Value = Model.KPP[1].Count;

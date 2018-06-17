@@ -11,7 +11,7 @@ namespace Model_Lab
         //Условие завершения прогона модели True - завершить прогон. По умолчанию false. </summary>
         public override bool MustStopRun(int variantCount, int runCount)
         {
-            return (Time >= TP);
+            return (TK > TP);
         }
 
         //установка метода перебора вариантов модели
@@ -72,6 +72,7 @@ namespace Model_Lab
             TraceModelHeader();
 
 			#region Планирование начальных событий      
+
             var ev1 = new K1();                         
 			Bid Z1 = new Bid();
             Z1.NZ = 1;
@@ -94,7 +95,7 @@ namespace Model_Lab
             rec2.Z = Z2;
             KPP[MZ[1, 0]].Add(rec2);
             PlanEvent(ev2, 0.0);                        
-            Tracer.PlanEventTrace(ev2);
+            //Tracer.PlanEventTrace(ev2);
             TraceModel();
 
             #endregion
@@ -108,7 +109,7 @@ namespace Model_Lab
             Tracer.TraceOut("============Статистические результаты моделирования===========");
             Tracer.TraceOut("==============================================================");
             Tracer.AnyTrace("");
-            Tracer.TraceOut("Время моделирования: " + String.Format("{0:0.00}", Time));
+            Tracer.TraceOut("Время моделирования: " + 100);
 
             Tracer.TraceOut("\r\nИнтенсивность числа полных прогонов: ");
             Tracer.TraceOut("Заявка 1: " + KC[0] / TP);
@@ -166,7 +167,7 @@ namespace Model_Lab
             Tracer.AnyTrace(MAXKPP[0] + " " + MAXKPP[0] + " " + MAXKPP[0]);
             Tracer.AnyTrace("");
             Tracer.AnyTrace("Время прогона: ");
-            Tracer.AnyTrace("TP = " + TP);
+            Tracer.AnyTrace("TP = " + 100);
             Tracer.AnyTrace("");
             Tracer.AnyTrace("Начальное состояние модели:");
             TraceModel();
@@ -183,24 +184,46 @@ namespace Model_Lab
 			                              TSZ[0], TSZ[1], TSZ[2], KC[0], KC[1], 
 			                              (int)SQ[0].Count, (int)SQ[1].Count, (int)SQ[2].Count, 
 			                              (int)KPP[0].Count, (int)KPP[1].Count, (int)KPP[2].Count));
-			for (int i = 0; i < KUVS; i++)
+            String str = "KPP: {";
+            //Tracer.AnyTrace("KPP: {");
+            for (int i = 0; i < KUVS; i++)
 			{
-				if (KPP[i].Count > 0)
-				{
-					for (int j = 0; j < KPP[i].Count; j++)
-					{
-						Tracer.AnyTrace("NU = " + (i+1) + " NZ = " + KPP[i][j].Z.NZ + " NE = " + KPP[i][j].Z.NE + " KOK = " + KPP[i][j].Z.KK);
-					}
-				}
-
-				if (SQ[i].Count > 0)
-				{
-					for (int j = 0; j < SQ[i].Count; j++)
-					{
-                        Tracer.AnyTrace("NU = " + (i+1) + " NZ = " + SQ[i][j].Z.NZ + " NE = " + SQ[i][j].Z.NE + " KOK = " + SQ[i][j].Z.KK);
+                for (int j = 0; j < MAXKPP[i]; j++)
+                {
+                    if (KPP[i].Count > j)
+                    {
+                        str += " NU = " + (i + 1).ToString() + " [" + KPP[i][j].Z.NZ.ToString() + "," + KPP[i][j].Z.NE.ToString() + "," + KPP[i][j].Z.KK.ToString() + "]";
+                        //Tracer.TraceOut("NU = " + (i+1) + " [" + KPP[i][j].Z.NZ + "," + KPP[i][j].Z.NE + "," + KPP[i][j].Z.KK + "]");
                     }
-				}
-			}
+                    else
+                    {
+                        str += " NU = " + (i + 1).ToString() + " [-,-,-]";
+                        //Tracer.AnyTrace("NU = " + (i + 1) + " [-,-,-]");
+                    }
+                }
+            }
+            str += "}";
+            Tracer.AnyTrace(str);
+
+            str = "SQ: {";
+            for (int i = 0; i < KUVS; i++)
+            {
+                for (int j = 0; j < SQ[i].Count; j++)
+                {
+                    if (SQ[i].Count > j)
+                    {
+                        str += " NU = " + (i + 1).ToString() + " [" + SQ[i][j].Z.NZ.ToString() + "," + SQ[i][j].Z.NE.ToString() + "," + SQ[i][j].Z.KK.ToString() + "]";
+                        //Tracer.TraceOut("NU = " + (i + 1) + " [" + SQ[i][j].Z.NZ + "," + SQ[i][j].Z.NE + "," + SQ[i][j].Z.KK + "]");
+                    }
+                    else
+                    {
+                        str += " NU = " + (i + 1).ToString() + " [-,-,-]";
+                        //Tracer.AnyTrace("NU = " + (i + 1) + " [-,-,-]");
+                    }
+                }
+            }
+            str += "}";
+            Tracer.AnyTrace(str);
 
             Tracer.AnyTrace("");
         }
@@ -208,3 +231,18 @@ namespace Model_Lab
     }
 }
 
+//if (KPP[i].Count > 0)
+//{
+//	for (int j = 0; j < KPP[i].Count; j++)
+//	{
+//		Tracer.AnyTrace("NU = " + (i+1) + " NZ = " + KPP[i][j].Z.NZ + " NE = " + KPP[i][j].Z.NE + " KOK = " + KPP[i][j].Z.KK);
+//	}
+//}
+
+//if (SQ[i].Count > 0)
+//{
+//	for (int j = 0; j < SQ[i].Count; j++)
+//	{
+//                    Tracer.AnyTrace("NU = " + (i+1) + " NZ = " + SQ[i][j].Z.NZ + " NE = " + SQ[i][j].Z.NE + " KOK = " + SQ[i][j].Z.KK);
+//                }
+//}
